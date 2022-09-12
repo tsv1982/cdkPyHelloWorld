@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 import os
 from flask import Flask
+
 app = Flask(__name__)
 import psycopg2
+
 
 def connect():
     """ Connect to the PostgreSQL database server """
@@ -10,7 +12,8 @@ def connect():
     try:
         # connect to the PostgreSQL server
         print('Connecting to the PostgreSQL database...')
-        conn = psycopg2.connect(dbname="test", user="testuser", password="servicepw", host="192.168.0.215", port="5432")
+        conn = psycopg2.connect(dbname=os.environ["DB_NAME"], user=os.environ["DB_USER"],
+                                password=os.environ["DB_PASS"], host=os.environ["DB_HOST"], port="5432")
 
         # create a cursor
         cur = conn.cursor()
@@ -32,14 +35,17 @@ def connect():
             conn.close()
             print('Database connection closed.')
 
+
 if __name__ == '__main__':
     connect()
+
 
 @app.route('/')
 def hello_world():
     name = os.environ.get('NAME', 'World')
     return 'Hello {}!'.format(name)
 
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT',
-            8080)))
+                                                                8080)))
