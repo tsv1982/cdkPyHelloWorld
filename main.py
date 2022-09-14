@@ -8,6 +8,7 @@ import psycopg2
 
 def connect():
     """ Connect to the PostgreSQL database server """
+    global db_ver
     conn = None
     try:
         # connect to the PostgreSQL server
@@ -20,7 +21,7 @@ def connect():
 
         # execute a statement
         print('PostgreSQL database version:')
-        cur.execute('SELECT version()')
+        db_ver = cur.execute('SELECT version()')
 
         # display the PostgreSQL database server version
         db_version = cur.fetchone()
@@ -36,17 +37,19 @@ def connect():
             conn.close()
             print('Database connection closed.')
 
+    return db_ver
+
 
 if __name__ == '__main__':
     connect()
 
+
 @app.route('/')
 def hello_world():
     name = os.environ.get('NAME', 'World !!!')
-    return 'Hello {}!'.format(name)
+    return 'Hello {}!'.format(connect())
 
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT',
                                                                 8080)))
-
