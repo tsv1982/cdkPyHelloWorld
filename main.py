@@ -47,7 +47,7 @@ if __name__ == '__main__':
 @app.route('/')
 def hello_world():
     name = os.environ.get('NAME', 'World !!!')
-    return 'Hello {}!'.format(connect())
+    return 'Hello {}!'.format(name)
 
 
 if __name__ == '__main__':
