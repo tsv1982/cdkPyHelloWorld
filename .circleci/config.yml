@@ -10,7 +10,7 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image: # orb built-in job
           repo: '${MY_APP_PREFIX}'
-          tag: '${CIRCLE_SHA1}' 
+          tag: '${CIRCLE_SHA1}'  
  #     - aws-ecs/deploy-service-update: # orb built-in job 
  #         requires:
  #           - aws-ecr/build-and-push-image
